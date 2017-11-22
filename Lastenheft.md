@@ -1,0 +1,30 @@
+# Aufgaben unseres Programms
+- Clients Oberfläche:
+	- Welche dependencies erfüllen sie
+	- Die zu entwickelnde Software läuft im Hintergrund z.B. als Windows Service
+- Server:
+	- Verteilt die Programme an die Clients als ZIP
+	- Ab und zu Clients anpingen
+		- Wenn einer ausfällt, seine Tasks an andere Clients verteilen
+	- Wenn Server ausfällt, soll ein anderer einspringen
+- Weboberfläche
+	- Verwaltung der Tasks im JSON Format
+		- Export/Import
+	- keine User
+	- höchstens allgemeines Login-Passwort
+- Tasks:
+	- Tasks haben dependencies
+	- Priorisierung der Tasks
+	- je nach exit code der Programme Betreuer über Mail/Slack benachrichtigen
+	- Verwaltung von Regelmäßigen Tasks die zu einer bestimmten Uhrzeit gestartet werden: z.B.: jeden Tag um 03:00
+	- Verwaltung von Regelmäßigen Tasks die in bestimmten Abständen gestartet werden: z.B.: alle 20 Minuten
+	- Tasks ständig im Hintergrund laufen lassen
+		- ggf. neugestartet werden falls es zu einem Fehler oder Neustart des Servers kommt.
+	- Tasks manuell starten
+	- stdout der Tasks in Dateien protokollieren
+		- eine pro Tag und Task
+		- Nach 7 Tagen werden alte Protokolle gelöscht.
+
+- Plattformunabhängige Lösung (lauffähig Windows und Linux) ist vorzuziehen
+- Die Datenhaltung der Taskverwaltung soll in MongoDB erfolgen
+- Die Taskverwaltung soll gleichzeitig (lastbalanciert) auf mehrern Servern laufen. Tasks werden dann z.B. zufällig auf einem Server ausgeführt.
