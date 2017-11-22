@@ -4,7 +4,7 @@
 	- Die zu entwickelnde Software läuft im Hintergrund z.B. als Windows Service
 - Server:
 	- Verteilt die Programme an die Clients als ZIP
-	- Ab und zu Clients anpingen
+	- Ab und zu Clients anpringen
 		- Wenn einer ausfällt, seine Tasks an andere Clients verteilen
 	- Wenn Server ausfällt, soll ein anderer einspringen
 - Weboberfläche
