@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "--------------------"
+echo "PreCommit Hook:"
+echo "- exporting docs"
+cd `dirname $0`/../..
+make -C docs
+git add docs/
+echo "--------------------"
