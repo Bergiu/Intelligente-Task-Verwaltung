@@ -15,6 +15,7 @@ dia: $(DIA_OBJS)
 
 %.png: %.dia
 	$(DIA_C) $< -e $@
+	$(shell if [ \$(ADD_TO_GIT) -eq 1 ]; then git add $<; fi )
 
 odg: $(ODG_OBJS)
 
