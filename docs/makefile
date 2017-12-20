@@ -15,14 +15,11 @@ dia: $(DIA_OBJS)
 
 %.png: %.dia
 	$(DIA_C) $< -e $@
-	$(shell if test $$ADD_TO_GIT; then echo "git -C ../ add docs/$@"; fi;)
 
 odg: $(ODG_OBJS)
 
 %.pdf: %.odg
 	$(ODG_C) --convert-to pdf $< 2>/dev/null
-	$(shell if test $$ADD_TO_GIT; then echo "git -C ../ add docs/$@"; fi;)
-	# $(shell if test $$ADD_TO_GIT; then git -C $$DIR add `pwd`/$@; fi;)
 
 clean:
 	rm $(ODG_OBJS) $(DIA_OBJS)
