@@ -2,6 +2,7 @@
 
 
 # goto project root
+echo dirname: `dirname $0`
 cd `dirname $0`/../docs
 
 for file in $(find -type f -iname "*.dia")
