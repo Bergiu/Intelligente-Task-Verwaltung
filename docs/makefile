@@ -1,4 +1,4 @@
-SHELL := /bin/sh
+SHELL := /bin/bash
 # config for dia
 DIA_C = dia
 DIA_SRCS=$(shell find -type f -iname "*.dia")
@@ -15,13 +15,13 @@ dia: $(DIA_OBJS)
 
 %.png: %.dia
 	$(DIA_C) $< -e $@
-	$(shell if [ \$(ADD_TO_GIT) -eq 1 ]; then git add $<; fi )
+	$(shell if test $$ADD_TO_GIT; then echo "git add $@"; fi;)
 
 odg: $(ODG_OBJS)
 
 %.pdf: %.odg
 	$(ODG_C) --convert-to pdf $< 2>/dev/null
-	$(shell if [ \$(ADD_TO_GIT) -eq 1 ]; then git add $<; fi )
+	$(shell if test $$ADD_TO_GIT; then echo "git add $@"; fi;)
 
 clean:
 	rm $(ODG_OBJS) $(DIA_OBJS)
