@@ -19,7 +19,8 @@ dia: $(DIA_OBJS)
 odg: $(ODG_OBJS)
 
 %.pdf: %.odg
-	$(ODG_C) --convert-to pdf $<
+	$(ODG_C) --convert-to pdf $< 2>/dev/null
+	$(shell if [ \$(ADD_TO_GIT) -eq 1 ]; then git add $<; fi )
 
 clean:
 	rm $(ODG_OBJS) $(DIA_OBJS)
