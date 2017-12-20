@@ -3,7 +3,9 @@
 
 # goto project root
 echo dirname: `dirname $0`
+echo `pwd`
 cd `dirname $0`/../docs
+echo `pwd`
 
 for file in $(find -type f -iname "*.dia")
 do
