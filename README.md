@@ -4,6 +4,6 @@ Dies ist ein Projekt zur intelligenten Verteilung und Verwaltung von Tasks auf v
 
 ## Dependencies
 - Python3
-- Django
-	- `pip install django`
+- Flask
+	- `pip install Flask`
 - MongoDB
