@@ -2,3 +2,5 @@
 .~lock.*
 tags
 .ropeproject
+__pycache__/
+*.autosave
