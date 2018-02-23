@@ -12,9 +12,9 @@ class TimeType:
     :always: A Task will be restarted after exiting
     :cron: A Task will be started with a crontab entry
     """
-    manual = 1
-    always = 2
-    cron = 3
+    manual = 0
+    always = 1
+    cron = 2
 
 
 class ServerRole:
@@ -23,11 +23,11 @@ class ServerRole:
 
     It doesn't inherit from Enum, because than it isn't JSON serializable
 
-    :task_manager: The Task Manager distributes the Tasks to the clients
-    :client: The client executes the tasks
+    :master: The master distributes the Tasks to the slaves
+    :slave: The slave executes the tasks
     """
-    task_manager = 1
-    client = 2
+    master = 0
+    slave = 1
 
 
 class DictWrapper(object):
@@ -203,7 +203,7 @@ class Server(DictWrapper):
         if "role" in d.keys():
             role = ServerRole(d["role"])
         else:
-            role = ServerRole.client
+            role = ServerRole.slave
         # tasks
         tasks = []
         if "tasks" in d.keys():
@@ -297,7 +297,7 @@ class ServerSettings(DictWrapper):
         return str(self.dict())
 
 
-def print_tasks(tasks:List[Task]):
+def print_tasks(tasks: List[Task]):
     for task in tasks:
         print(task)
 
@@ -307,7 +307,6 @@ class Main:
         # main
         # load db
         tasks_j = json.loads('[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]')
-        print(type(tasks_j[0]))
 
         # initialize objects
         tasks = []
