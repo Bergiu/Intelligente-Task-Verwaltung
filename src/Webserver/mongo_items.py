@@ -262,7 +262,7 @@ class ServerSettings(DictWrapper):
         :d["log_settings"]["log_std_out_daily"] bool: if the logs should be saved daily
         """
         # id
-        id = int(id)
+        id = int(d["id"])
         # client ips
         client_ips = []
         if "client_ips" in d.keys():
