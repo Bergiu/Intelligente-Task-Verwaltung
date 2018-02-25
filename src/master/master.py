@@ -1,11 +1,12 @@
 # imports
 import json
-# module imports
+# parent module imports
 from mongo_items import Task
 from mongo_items import ServerSettings
 from mongo_items import Server
-from webserver import Webserver
-from interfaces import ITaskManager
+# this module imports
+from .webserver import Webserver
+from .interfaces import ITaskManager
 
 
 class MongoConnector(object):
@@ -78,12 +79,14 @@ class TaskManager(ITaskManager):
         pass
 
 
-task_man = TaskManager()
-master = Master(task_man)
-task_man.master = master
-print("All tasks:")
-for task in task_man.tasks:
-    print(task.task.dict())
-print("Settings:")
-print(master.config.dict())
-master.startWebserver()
+def main():
+    task_man = TaskManager()
+    master = Master(task_man)
+    task_man.master = master
+    print("All tasks:")
+    for task in task_man.tasks:
+        print(task.task.dict())
+    print("Settings:")
+    print(master.config.dict())
+    master.startWebserver()
+

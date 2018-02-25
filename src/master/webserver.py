@@ -1,6 +1,8 @@
+# imports
 from flask import Flask
 from flask import redirect, url_for, request, render_template
-from interfaces import ITaskManager
+# this module imports
+from .interfaces import ITaskManager
 
 
 class Webserver(object):
