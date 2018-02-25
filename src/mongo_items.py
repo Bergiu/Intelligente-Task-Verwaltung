@@ -1,12 +1,11 @@
 import json
 from typing import List
+from enum import IntEnum
 
 
-class TimeType:
+class TimeType(IntEnum):
     """
     TimeType Enum
-
-    It doesn't inherit from Enum, because than it isn't JSON serializable
 
     :manual: A Task is only executed manually
     :always: A Task will be restarted after exiting
@@ -17,11 +16,9 @@ class TimeType:
     cron = 2
 
 
-class ServerRole:
+class ServerRole(IntEnum):
     """
     ServerRole Enum
-
-    It doesn't inherit from Enum, because than it isn't JSON serializable
 
     :master: The master distributes the Tasks to the slaves
     :slave: The slave executes the tasks
@@ -42,6 +39,12 @@ class DictWrapper(object):
         :d dict: the dict object
         """
         self.d = d
+
+    def get(self, key: str):
+        """
+        returns the value of the key
+        """
+        return self.d[key]
 
     def dict(self) -> dict:
         """
@@ -302,27 +305,45 @@ def print_tasks(tasks: List[Task]):
         print(task)
 
 
-class Main:
-    def run(self):
-        # main
-        # load db
-        tasks_j = json.loads('[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]')
+def get_test_servers(amount: int):
+    """
+    Returns an array of dummy servers.
 
-        # initialize objects
-        tasks = []
-        for task_j in tasks_j:
-            tasks.append(Task(task_j))
+    The first one is always a master server.
+    The rest are slaves.
+    """
+    if amount < 1:
+        return []
+    servers = []
+    d_server = dict()
+    d_server["ip"] = "127.0.0." + str(1)
+    d_server["role"] = int(ServerRole.master)
+    server = Server(d_server)
+    servers.append(server)
+    for i in range(2, amount):
+        d_server = dict()
+        d_server["ip"] = "127.0.0." + str(i)
+        d_server["role"] = int(ServerRole.slave)
+        server = Server(d_server)
+        servers.append(server)
+    return servers
 
-        # del(tasks_j)
-        tasks_j[0]["name"] = "blau"
 
-        # work
-        # ...
-        print_tasks(tasks)
-
-        print(json.dumps(tasks[0].dict()))
+def test_task():
+    # main
+    # load db
+    tasks_j = json.loads('[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]')
+    # initialize objects
+    tasks = []
+    for task_j in tasks_j:
+        tasks.append(Task(task_j))
+    # del(tasks_j)
+    tasks_j[0]["name"] = "blau"
+    # work
+    # ...
+    print_tasks(tasks)
+    print(json.dumps(tasks[0].dict()))
 
 
 if __name__ == "__main__":
-    main = Main()
-    main.run()
+    test_task()
