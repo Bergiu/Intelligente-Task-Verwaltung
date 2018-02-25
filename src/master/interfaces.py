@@ -1,6 +1,7 @@
 # parent module imports
 from mongo_items import Task
 
+
 class ITaskManager(object):
     """
     Interface for TaskManager.
@@ -10,14 +11,19 @@ class ITaskManager(object):
     changed and updated.
     """
 
-    def add_task(task: Task):
+    def add_task(self, task: Task):
         raise NotImplemented
 
-    def remove_task(task_id: int):
+    def remove_task(self, task_id: int):
         raise NotImplemented
 
-    def update_task(task: Task):
+    def update_task(self, task: Task):
         raise NotImplemented
 
-    def get_task(task_id: int):
+    def get_task(self, task_id: int):
+        raise NotImplemented
+
+
+class IExecutor(object):
+    def execute(task_id: int=None):
         raise NotImplemented

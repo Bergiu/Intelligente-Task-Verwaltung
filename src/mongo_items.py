@@ -300,12 +300,47 @@ class ServerSettings(DictWrapper):
         return str(self.dict())
 
 
+def load_tasks():
+    """"
+    Loads the tasks from the mongodb and returns them as json string
+    """
+    s = '[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]'
+    tasks_j = json.loads(s)
+    tasks = []
+    for task_j in tasks_j:
+        task = Task(task_j)
+        tasks.append(task)
+    return tasks
+
+
+def load_server_settings():
+    """"
+    Loads the server settings from the mongodb and returns them as json string
+    """
+    s = '[{"id": 0, "client_ips": ["192.168.178.4", "192.168.178.5"], "log_settings": {}}]'
+    server_settings_j = json.loads(s)
+    server_settings = []
+    for server_setting_j in server_settings_j:
+        server_setting = ServerSettings(server_setting_j)
+        server_settings.append(server_setting)
+    return server_settings
+
+
+def load_servers():
+    s = '[{"ip": "127.0.0.1", "role": "master", "tasks": []}]'
+    servers_j = json.loads(s)
+    servers = []
+    for server_j in servers_j:
+        server = Server(server_j)
+        servers.append(server)
+    return servers
+
 def print_tasks(tasks: List[Task]):
     for task in tasks:
         print(task)
 
 
-def get_test_servers(amount: int):
+def get_test_servers(amount: int=2):
     """
     Returns an array of dummy servers.
 
@@ -320,7 +355,7 @@ def get_test_servers(amount: int):
     d_server["role"] = int(ServerRole.master)
     server = Server(d_server)
     servers.append(server)
-    for i in range(2, amount):
+    for i in range(2, amount+1):
         d_server = dict()
         d_server["ip"] = "127.0.0." + str(i)
         d_server["role"] = int(ServerRole.slave)
@@ -330,7 +365,7 @@ def get_test_servers(amount: int):
 
 
 def test_task():
-    # main
+    print("### Test Tasks")
     # load db
     tasks_j = json.loads('[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]')
     # initialize objects
@@ -343,6 +378,8 @@ def test_task():
     # ...
     print_tasks(tasks)
     print(json.dumps(tasks[0].dict()))
+    servers = get_test_servers(2)
+    for server in servers: print(server)
 
 
 if __name__ == "__main__":

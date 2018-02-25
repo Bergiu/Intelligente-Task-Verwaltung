@@ -1,82 +1,51 @@
 # imports
-import json
 # parent module imports
-from mongo_items import Task
-from mongo_items import ServerSettings
-from mongo_items import Server
-# this module imports
-from .webserver import Webserver
-from .interfaces import ITaskManager
+from mongo_items import load_servers
+from mongo_items import load_server_settings
+# module imports
+from .manager import ExecutorManager
+from .manager import TaskManager
+from .manager import WebserverManager
 
 
-class MongoConnector(object):
-    def load_tasks():
-        """"Loads the tasks from the mongodb and returns them as json string"""
-        return '[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]'
-
-    def load_server_settings():
-        """"Loads the server settings from the mongodb and returns them as json string"""
-        return '[{"id": 0, "client_ips": ["192.168.178.4", "192.168.178.5"], "log_settings": {}}]'
-
-
-class ServerTask(object):
-    """
-    A Wrapper around the Task class.
-
-    Gives access to necessary functions for the TaskManager
-    """
-
-    def __init__(self, task: Task):
-        """Initial function"""
-        self.task = task
-
-
-class Master(object):
+class Master(ExecutorManager):
     """
     Manages the server.
 
     Contains a task manager, the config, the webserver, the watcher and the executor
     """
 
-    def __init__(self, task_manager: ITaskManager=None):
+    def __init__(self, amount_executors: int=1):
         """Initial function"""
-        self.task_manager = task_manager
-        self.loadConfig()
-        self.loadWebserver()
+        # load config
+        server_settings = load_server_settings()
+        if len(server_settings) <= 0:
+            # TODO
+            raise Exception("not enough settings")
+        self.config = server_settings[0]
+        # load servers
+        self.servers = load_servers()
+        # create managers
+        self.create_managers(amount_executors=amount_executors)
 
-    def loadConfig(self):
-        """Loads the first server settings"""
-        configs_j = json.loads(MongoConnector.load_server_settings())
-        if len(configs_j) >= 1:
-            self.config = ServerSettings(configs_j[0])
+    def create_managers(self, amount_executors: int=1):
+        """
+        Loads the webserver/executor and watcher manager
+        """
+        self.executor_manager = ExecutorManager()
+        self.executor_manager.create_executors(self.servers, self.amount_executors)
+        self.task_manager = TaskManager(self.executor_manager)
+        # TODO
+        self.watcher_manager = None
+        self.webserver_manager = WebserverManager(self.task_manager)
 
-    def loadWebserver(self):
-        """Loads the webserver"""
-        self.webserver = Webserver(self)
-
-    def startWebserver(self):
-        """37;14M37;14M"""
+    def start_threads(self):
+        """
+        Starts the webserver, executor and watcher threads
+        """
         self.webserver.start()
-
-
-class TaskManager(ITaskManager):
-    def __init__(self, master: Master=None):
-        """Initial function"""
-        self.master = master
-        self.loadTasks()
-
-    def loadTasks(self):
-        """Loads all tasks"""
-        self.tasks = []
-        tasks_j = json.loads(MongoConnector.load_tasks())
-        for task_j in tasks_j:
-            task = Task(task_j)
-            s_task = ServerTask(task)
-            self.tasks.append(s_task)
-
-    def execute(task: Task):
-        """ """
-        pass
+        self.executor_manager.start()
+        # self.watcher_manager.start()
 
 
 def main():
