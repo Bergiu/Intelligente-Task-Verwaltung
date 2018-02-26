@@ -3,12 +3,13 @@
 from mongo_items import load_servers
 from mongo_items import load_server_settings
 # module imports
+from .interfaces import IExecutor
 from .manager import ExecutorManager
 from .manager import TaskManager
 from .manager import WebserverManager
 
 
-class Master(ExecutorManager):
+class Master(object):
     """
     Manages the server.
 

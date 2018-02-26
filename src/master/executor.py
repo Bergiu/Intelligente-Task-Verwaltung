@@ -30,10 +30,10 @@ class Executor(IExecutor):
         sorted_servers = sorted(self.servers, key=lambda server: len(server.get("tasks")))
         # try executing until it's executed
         executed = False
+        server = None
         for i_server in sorted_servers:
             if i_server.get("role") == ServerRole.slave:
                 server = i_server
-                server.get("tasks").append(task_id)
                 route = "/execute/" + str(task_id)
                 url = get_url(server.get("ip"), route, server.get("port"))
                 response = my_curl.GET(url)
@@ -42,9 +42,12 @@ class Executor(IExecutor):
                     executed = True
                 else:
                     print("not working")
-                    server.tasks.remove(task_id)
             if executed:
                 break
+        if not executed:
+            server = None
+        else:
+            server.get("tasks").append(task_id)
         self.blocked = False
         out = (executed, server)
         return out

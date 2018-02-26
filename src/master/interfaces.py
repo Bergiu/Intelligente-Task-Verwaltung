@@ -25,5 +25,5 @@ class ITaskManager(object):
 
 
 class IExecutor(object):
-    def execute(task_id: int=None):
+    def execute(task_id: int):
         raise NotImplemented

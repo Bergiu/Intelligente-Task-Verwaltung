@@ -7,24 +7,24 @@ class TimeType(IntEnum):
     """
     TimeType Enum
 
-    :manual: A Task is only executed manually
-    :always: A Task will be restarted after exiting
-    :cron: A Task will be started with a crontab entry
+    :MANUAL: A Task is only executed manually
+    :ALWAYS: A Task will be restarted after exiting
+    :CRON: A Task will be started with a crontab entry
     """
-    manual = 0
-    always = 1
-    cron = 2
+    MANUAL = 0
+    ALWAYS = 1
+    CRON = 2
 
 
 class ServerRole(IntEnum):
     """
     ServerRole Enum
 
-    :master: The master distributes the Tasks to the slaves
-    :slave: The slave executes the tasks
+    :MASTER: The master distributes the Tasks to the slaves
+    :SLAVE: The slave executes the tasks
     """
-    master = 0
-    slave = 1
+    MASTER = 0
+    SLAVE = 1
 
 
 class DictWrapper(object):
@@ -116,7 +116,7 @@ class Task(DictWrapper):
                 e_command = str(d["executable"]["command"])
         executable = {"archivefile": e_archivefile, "command": e_command}
         # time
-        t_time_type = TimeType.manual
+        t_time_type = TimeType.MANUAL
         t_cron_entry = ""
         if "time" in d.keys():
             # time type
@@ -197,21 +197,28 @@ class Server(DictWrapper):
         :d dict:
         :d["ip"] str: ip of the server
         :d["port"] int: port of the service
+        :d["online"] bool: if the server is online
         :d["role"] int: role is the integer value of ServerRole
         :d["task"] List[int]: list of task ids that are executed currently on this server
         :d["dependencies"] List[dict["dependency": str, "version": str]]: list of dependencies
         """
         # ip
         ip = str(d["ip"])
+        # port
         if "port" in d.keys():
             port = d["port"]
         else:
             port = 5000
+        # online
+        if "online" in d.keys():
+            online = d["online"]
+        else:
+            online = True
         # role
         if "role" in d.keys():
             role = ServerRole(d["role"])
         else:
-            role = ServerRole.slave
+            role = ServerRole.SLAVE
         # tasks
         tasks = []
         if "tasks" in d.keys():
@@ -233,7 +240,7 @@ class Server(DictWrapper):
                     version = ""
                 # append dependency
                 dependencies.append({"dependency": dependency_name, "version": version})
-        n = {"ip": ip, "port": port, "role": role, "tasks": tasks, "dependencies": dependencies}
+        n = {"ip": ip, "port": port, "online": online, "role": role, "tasks": tasks, "dependencies": dependencies}
         super(Server, self).__init__(n)
 
     def add_dependency(self, dependency: str, version: str):
@@ -332,7 +339,7 @@ def load_server_settings():
 
 
 def load_servers():
-    s = '[{"ip": "127.0.0.1", "role": "master", "tasks": []}]'
+    s = '[{"ip": "127.0.0.1", "role": "MASTER", "tasks": []}]'
     servers_j = json.loads(s)
     servers = []
     for server_j in servers_j:
@@ -358,13 +365,13 @@ def get_test_servers(amount: int=2) -> List[Server]:
     servers = []
     d_server = dict()
     d_server["ip"] = "127.0.0." + str(1)
-    d_server["role"] = int(ServerRole.master)
+    d_server["role"] = int(ServerRole.MASTER)
     server = Server(d_server)
     servers.append(server)
     for i in range(2, amount+1):
         d_server = dict()
         d_server["ip"] = "127.0.0." + str(i)
-        d_server["role"] = int(ServerRole.slave)
+        d_server["role"] = int(ServerRole.SLAVE)
         server = Server(d_server)
         servers.append(server)
     return servers
