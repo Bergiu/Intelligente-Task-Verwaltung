@@ -33,3 +33,5 @@ class Webserver(object):
         self.app.run(self.host, self.port, self.debug)
 
 
+class WebserverManager(object):
+    pass

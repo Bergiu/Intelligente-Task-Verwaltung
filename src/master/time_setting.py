@@ -14,6 +14,7 @@ class TimeSetting(object):
     def execute(self):
         self.executor_manager.execute()
 
+
 class Manual(TimeSetting):
     """Can only be executed manual"""
 

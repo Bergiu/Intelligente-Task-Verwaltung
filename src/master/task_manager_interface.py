@@ -22,8 +22,3 @@ class ITaskManager(object):
 
     def get_task(self, task_id: int):
         raise NotImplemented
-
-
-class IExecutor(object):
-    def execute(task_id: int):
-        raise NotImplemented
