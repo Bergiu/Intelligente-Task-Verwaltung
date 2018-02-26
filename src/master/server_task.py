@@ -2,6 +2,7 @@
 from mongo_items import Task
 # module imports
 from .interfaces import IExecutor
+from .task_status import LifeCicle, TaskStatus
 
 
 class ServerTask(object):

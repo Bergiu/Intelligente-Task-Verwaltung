@@ -2,12 +2,12 @@
 from typing import List
 # parent module import
 from mongo_items import Server
-from mongo_items import get_test_servers
 from mongo_items import ServerRole
+from mongo_items import get_test_servers
 import my_curl
 from my_curl import get_url
 # module import
-from .interfaces import IExecutor
+from .task_manager_interface import ITaskManager
 
 
 class IExecutor(object):

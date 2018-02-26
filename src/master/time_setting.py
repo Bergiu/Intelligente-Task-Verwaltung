@@ -1,5 +1,6 @@
 from server_task import ServerTask
 from interfaces import ExecutorManager
+from .task_status import LifeCicle, TaskStatus
 
 class TimeSetting(object):
     """

@@ -2,7 +2,8 @@
 from flask import Flask
 from flask import redirect, url_for, request, render_template
 # this module imports
-from .interfaces import ITaskManager
+from .task_manager_interface import ITaskManager
+from .executor import IExecutor
 
 
 class Webserver(object):
