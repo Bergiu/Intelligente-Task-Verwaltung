@@ -79,6 +79,5 @@ def test_executor_manager():
     exe_man = ExecutorManager()
     servers = mongo_items.get_test_servers(2)
     exe_man.create_executors(servers, 2)
-    for ex in exe_man.executors: print(ex.__dict__)
     # test
     exe_man.execute(3)

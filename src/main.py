@@ -1,5 +1,13 @@
 # from master import main 
 # main()
+import sys
+
+def run_slave():
+    from slave import run
+    run()
+
+def run():
+    print("not implemented")
 
 def test():
     from mongo_items import test_task
@@ -9,4 +17,13 @@ def test():
     from master import test_executor_manager
     test_executor_manager()
 
-test()
+def main(argv):
+    if "--test" in argv:
+        test()
+    elif "--run-slave" in argv:
+        run_slave()
+    else:
+        run()
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -196,12 +196,17 @@ class Server(DictWrapper):
 
         :d dict:
         :d["ip"] str: ip of the server
+        :d["port"] int: port of the service
         :d["role"] int: role is the integer value of ServerRole
         :d["task"] List[int]: list of task ids that are executed currently on this server
         :d["dependencies"] List[dict["dependency": str, "version": str]]: list of dependencies
         """
         # ip
         ip = str(d["ip"])
+        if "port" in d.keys():
+            port = d["port"]
+        else:
+            port = 5000
         # role
         if "role" in d.keys():
             role = ServerRole(d["role"])
@@ -228,7 +233,7 @@ class Server(DictWrapper):
                     version = ""
                 # append dependency
                 dependencies.append({"dependency": dependency_name, "version": version})
-        n = {"ip": ip, "role": role, "tasks": tasks, "dependencies": dependencies}
+        n = {"ip": ip, "port": port, "role": role, "tasks": tasks, "dependencies": dependencies}
         super(Server, self).__init__(n)
 
     def add_dependency(self, dependency: str, version: str):
@@ -335,12 +340,13 @@ def load_servers():
         servers.append(server)
     return servers
 
+
 def print_tasks(tasks: List[Task]):
     for task in tasks:
         print(task)
 
 
-def get_test_servers(amount: int=2):
+def get_test_servers(amount: int=2) -> List[Server]:
     """
     Returns an array of dummy servers.
 
@@ -377,7 +383,6 @@ def test_task():
     # work
     # ...
     print_tasks(tasks)
-    print(json.dumps(tasks[0].dict()))
     servers = get_test_servers(2)
     for server in servers: print(server)
 
