@@ -4,8 +4,11 @@ Dies ist ein Projekt zur intelligenten Verteilung und Verwaltung von Tasks auf v
 
 ## Dependencies
 - Python3
-- Flask
-	- `pip install Flask`
+- Python Modules:
+	- Flask
+		- `pip install Flask`
+	- requests
+		- `pip install requests`
 - MongoDB
 
 ## Virtual Env
