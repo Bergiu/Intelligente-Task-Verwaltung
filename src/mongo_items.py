@@ -339,6 +339,9 @@ def load_server_settings():
 
 
 def load_servers():
+    """
+    Loads the Servers from the Database
+    """
     s = '[{"ip": "127.0.0.1", "role": "MASTER", "tasks": []}]'
     servers_j = json.loads(s)
     servers = []
@@ -349,6 +352,9 @@ def load_servers():
 
 
 def print_tasks(tasks: List[Task]):
+    """
+    Prints the Tasks
+    """
     for task in tasks:
         print(task)
 
@@ -378,6 +384,9 @@ def get_test_servers(amount: int=2) -> List[Server]:
 
 
 def test_task():
+    """
+    Tests some functionality of the Task class
+    """
     print("### Test Tasks")
     # load db
     tasks_j = json.loads('[{"id": 1, "name": "task1", "dependencies":[{"dependency": "linux"},{"dependency": "python", "version": "3.6.8"}]}, {"id": 2, "name": "task2"}]')

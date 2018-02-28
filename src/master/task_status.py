@@ -12,7 +12,8 @@ class LifeCicle(IntEnum):
 
 
 class TaskStatus (object):
-    def __init__(self, message: str, exit_code: int) :
+    def __init__(self, message: str, exit_code: int, life_cycle: LifeCicle) :
         self.message = message
         self.exit_code = exit_code
+        self.life_cycle = life_cycle
 
