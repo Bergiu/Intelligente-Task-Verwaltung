@@ -35,4 +35,12 @@ class Webserver(object):
 
 
 class WebserverManager(object):
-    pass
+    def __init__(self) :
+            self.webserver = None # Webserver
+            pass
+    def loadWebserver (self) :
+            # returns 
+            pass
+    def startWebserver (self) :
+            # returns 
+            pass

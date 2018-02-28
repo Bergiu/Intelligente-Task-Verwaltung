@@ -9,7 +9,10 @@ from .manager import TaskManager
 from .manager import WebserverManager
 
 
-class Master(object):
+    def __init__(self) :
+            pass
+
+class Master (IServerManager, IServerSettingManager) :
     """
     Manages the server.
 

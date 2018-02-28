@@ -22,10 +22,15 @@ class ServerTask(object):
         """
         return self.task.get(key)
 
+    def trigger_status (self, task_status) :
+            # returns 
+            pass
+
 
 class ServerTaskManager(ITaskManager):
-    def __init__(self, executor_manager: ExecutorManager):
+    def __init__(self, settings: ServerSettings, executor_manager: ExecutorManager):
         """Initial function"""
+        self.settings = settings
         self.executor_manager = executor_manager
         self.tasks = load_tasks()
 

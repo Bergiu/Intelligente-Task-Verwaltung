@@ -11,5 +11,8 @@ class LifeCicle(IntEnum):
     NO_RESPONSE = 5
 
 
-class TaskStatus(object):
-    pass
+class TaskStatus (object):
+    def __init__(self, message: str, exit_code: int) :
+        self.message = message
+        self.exit_code = exit_code
+

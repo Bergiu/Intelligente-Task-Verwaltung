@@ -1,9 +1,9 @@
 todo:
 - [x] rename files and create all classes as dummy
-- [] make imports
-- [] create dummy functions
+- [x] create dummy functions
 - [] document classes and methods
 - [] implement methods
+- [] make imports
 
 interfaces
 	- check the not implemented syntax

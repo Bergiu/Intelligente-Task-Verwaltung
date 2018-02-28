@@ -16,7 +16,7 @@ class IExecutor(object):
 
 
 class Executor(IExecutor):
-    """Executes a task on a server"""
+    '''Executes a task on the next free server'''
 
     def __init__(self, servers: List[Server]):
         """TODO: to be defined1. """
