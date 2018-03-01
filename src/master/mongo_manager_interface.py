@@ -2,7 +2,7 @@
 # parent module imports
 from mongo_items import Task
 # module imports
-from .task_status import LifeCicle, TaskStatus
+from .task_status import LifeCycle, TaskStatus
 
 
 class ITaskManager(object):

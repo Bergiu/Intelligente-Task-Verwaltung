@@ -2,7 +2,7 @@
 from mongo_items import Task
 # module imports
 from .actions import ExitCodeActionHandler
-from .task_status import TaskStatus, LifeCicle
+from .task_status import TaskStatus, LifeCycle
 from .time_setting import TimeSetting
 import mongo_items
 
@@ -13,13 +13,14 @@ class ServerTask(object):
     Gives access to necessary functions for the TaskManager
     """
 
-    def __init__(self, task: Task, exit_code_action_handler: ExitCodeActionHandler, time_setting: TimeSetting):
+    def __init__(self, task: Task):
         """Initial function"""
         self.task = task
-        self.exit_code_action_handler = exit_code_action_handler
-        # self.exit_code_action_handler = ExitCodeActionHandler(task)
-        # self.exit_code_action_handler.create_exit_code_actions(task.get("actions"))
+        # self.exit_code_action_handler = exit_code_action_handler
+        self.exit_code_action_handler = ExitCodeActionHandler(task)
+        ExitCodeActionHandler.create_exit_code_actions(task.get("actions"))
         self.time_setting = time_setting
+        self.time_setting = TimeSetting.create_time_setting(task)
 
     def get(self, key: str):
         """
@@ -73,7 +74,7 @@ class ServerTaskManager(ITaskManager):
         st = self.get_server_task(task.get("id"))
         restarted = 
         # if task stopped
-        if task_status.life_cycle == LifeCicle.EXITED \
-                or task_status.life_cycle == LifeCicle.NO_RESPONSE:
+        if task_status.life_cycle == LifeCycle.EXITED \
+                or task_status.life_cycle == LifeCycle.NO_RESPONSE:
             # and if task is not restarted
             if restarted

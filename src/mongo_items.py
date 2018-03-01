@@ -120,12 +120,12 @@ class Task(DictWrapper):
         t_cron_entry = ""
         if "time" in d.keys():
             # time type
-            if "type" in d["executable"]:
-                time_type_raw = int(d["executable"]["type"])
+            if "type" in d["time"]:
+                time_type_raw = int(d["time"]["type"])
                 t_time_type = TimeType(time_type_raw)
             # cron entry
-            if "cron_entry" in d["executable"]:
-                t_cron_entry = str(d["executable"]["cron_entry"])
+            if "cron_entry" in d["time"]:
+                t_cron_entry = str(d["time"]["cron_entry"])
         time = {"type": t_time_type, "cron_entry": t_cron_entry}
         # actions
         actions = []

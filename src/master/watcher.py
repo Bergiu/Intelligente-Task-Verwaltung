@@ -7,7 +7,7 @@ from my_curl import get_url
 # module imports
 from .task_manager_interface import ITaskManager
 from .executor import IExecutor
-from .task_status import LifeCicle, TaskStatus
+from .task_status import LifeCycle, TaskStatus
 
 class Watcher :
     '''Watches the tasks of a server. For each server there is a watcher'''

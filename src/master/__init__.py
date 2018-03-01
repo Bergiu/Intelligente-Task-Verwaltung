@@ -2,4 +2,5 @@
 
 # tests
 from .executor import test_executor
-from .manager import test_executor_manager
+from .executor import test_executor_manager
+from .time_setting import test_create_time_setting

@@ -7,7 +7,7 @@ from mongo_items import get_test_servers
 import my_curl
 from my_curl import get_url
 # module import
-from .task_manager_interface import ITaskManager
+from .mongo_manager_interface import ITaskManager
 
 
 class IExecutor(object):
@@ -37,7 +37,7 @@ class Executor(IExecutor):
         executed = False
         server = None
         for i_server in sorted_servers:
-            if i_server.get("role") == ServerRole.slave:
+            if i_server.get("role") == ServerRole.SLAVE:
                 server = i_server
                 route = "/execute/" + str(task_id)
                 url = get_url(server.get("ip"), route, server.get("port"))
@@ -86,6 +86,14 @@ class ExecutorManager(IExecutor):
         print("Not implemented now")
 
 
+def get_test_executor_manager() -> ExecutorManager:
+    """Return an Executor that can be used for tests."""
+    servers = get_test_servers()
+    executor_manager = ExecutorManager()
+    executor_manager.create_executors(servers)
+    return executor_manager
+
+
 def test_executor():
     print("### Test Executor")
     servers = get_test_servers(4)
@@ -96,10 +104,10 @@ def test_executor():
     executor = Executor(servers)
     executor.execute(2)
 
+
 def test_executor_manager():
     print("### Test ExecutorManager")
     exe_man = ExecutorManager()
-    servers = mongo_items.get_test_servers(2)
+    servers = get_test_servers(2)
     exe_man.create_executors(servers, 2)
-    # test
     exe_man.execute(3)

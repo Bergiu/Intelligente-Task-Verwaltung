@@ -1,4 +1,4 @@
-from .task_status import LifeCicle, TaskStatus
+from .task_status import LifeCycle, TaskStatus
 
 
 class ExitCodeAction :
@@ -97,15 +97,7 @@ class ExitCodeActionHandler (object):
 
     def __init__(self, task: Task) :
         self.task = task
-        self.exit_code_action_classes = [TgBot, SlackBot, EMail]
         self.actions = []
-
-    def create_exit_code_actions(self, actions: List[dict]):
-        for action in actions:
-            for ecacl in self.exit_code_action_classes:
-                if ecacl.__name__ == action["action_name"]:
-                    eca = ecacl(action["exit_code"])
-                    self.actions.append(eca)
 
     def trigger_status (self, status: TaskStatus) -> bool:
         """
@@ -117,3 +109,17 @@ class ExitCodeActionHandler (object):
                 out = False
         return out
 
+
+EXIT_CODE_ACTION_CLASSES = [TgBot, SlackBot, EMail]
+
+
+# TODO
+def create_exit_code_actions(task: Task) -> []:
+    actions = task.get("actions")
+    li = []
+    for action in actions:
+        for ecacl in EXIT_CODE_ACTION_CLASSES:
+            if ecacl.__name__.lower() == action["action_name"].lower():
+                eca = ecacl(action["exit_code"])
+                li.append(eca)
+    return li

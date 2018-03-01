@@ -1,8 +1,8 @@
-from typing import IntEnum
+from enum import IntEnum
 
 
 # TODO: documentation
-class LifeCicle(IntEnum):
+class LifeCycle(IntEnum):
     NOT_STARTED = 0
     RUNNING = 1
     WAITING = 2
@@ -12,7 +12,7 @@ class LifeCicle(IntEnum):
 
 
 class TaskStatus (object):
-    def __init__(self, message: str, exit_code: int, life_cycle: LifeCicle) :
+    def __init__(self, message: str, exit_code: int, life_cycle: LifeCycle) :
         self.message = message
         self.exit_code = exit_code
         self.life_cycle = life_cycle

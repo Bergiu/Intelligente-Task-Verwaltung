@@ -16,6 +16,8 @@ def test():
     test_executor()
     from master import test_executor_manager
     test_executor_manager()
+    from master import test_create_time_setting
+    test_create_time_setting()
 
 def main(argv):
     if "--test" in argv:
