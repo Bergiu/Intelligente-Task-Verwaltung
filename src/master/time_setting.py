@@ -68,16 +68,6 @@ class Cron(TimeSetting):
         """Initialize function."""
         TimeSetting.__init__(self, task, executor_manager)
 
-    def trigger_status(self, status: TaskStatus) -> bool:
-        """
-        Use to handle TaskStatuses (Stati?).
-
-        Should restart the Task if necessary.
-
-        :returns bool: True if task can be removed. Also should restart the task if needed.
-        """
-        raise NotImplementedError("Not implemented")
-
 
 CLASSES = [Manual, Always, Cron]
 
@@ -89,9 +79,9 @@ def create_time_setting(task: Task, executor_manager: ExecutorManager) -> TimeSe
             return CLASS(task, executor_manager)
 
 
-def test_create_time_setting():
+def test_create_time_setting(slave_ip=None):
     print("### Test create_time_setting")
-    executor_manager = get_test_executor_manager()
+    executor_manager = get_test_executor_manager(slave_ip)
     task_manual = Task({"id": 5, "time": {"type": 0}})
     time_manual = create_time_setting(task_manual, executor_manager)
     time_manual.execute()

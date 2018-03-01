@@ -359,7 +359,7 @@ def print_tasks(tasks: List[Task]):
         print(task)
 
 
-def get_test_servers(amount: int=2) -> List[Server]:
+def get_test_servers(amount: int=2, slave_ip: str=None) -> List[Server]:
     """
     Returns an array of dummy servers.
 
@@ -369,6 +369,17 @@ def get_test_servers(amount: int=2) -> List[Server]:
     if amount < 1:
         return []
     servers = []
+    if slave_ip:
+        d_server = dict()
+        d_server["ip"] = slave_ip
+        d_server["role"] = int(ServerRole.SLAVE)
+        server = Server(d_server)
+        servers.append(server)
+        d_server["ip"] = "127.0.0." + str(1)
+        d_server["role"] = int(ServerRole.SLAVE)
+        server = Server(d_server)
+        servers.append(server)
+        return servers
     d_server = dict()
     d_server["ip"] = "127.0.0." + str(1)
     d_server["role"] = int(ServerRole.MASTER)

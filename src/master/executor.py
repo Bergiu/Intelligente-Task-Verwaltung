@@ -1,5 +1,6 @@
 # import
 from typing import List
+import requests
 # parent module import
 from mongo_items import Server
 from mongo_items import ServerRole
@@ -16,7 +17,7 @@ class IExecutor(object):
 
 
 class Executor(IExecutor):
-    '''Executes a task on the next free server'''
+    """Execute a task on the next free server."""
 
     def __init__(self, servers: List[Server]):
         """TODO: to be defined1. """
@@ -24,9 +25,7 @@ class Executor(IExecutor):
         self.blocked = False
 
     def execute(self, task_id: int) -> bool:
-        """
-        Executes a task
-        """
+        """Execute a task."""
         self.blocked = True
         if len(self.servers) <= 0:
             # TODO: make an exception class
@@ -41,7 +40,12 @@ class Executor(IExecutor):
                 server = i_server
                 route = "/execute/" + str(task_id)
                 url = get_url(server.get("ip"), route, server.get("port"))
-                response = my_curl.GET(url)
+                try:
+                    response = my_curl.GET(url)
+                except requests.exceptions.ConnectionError:
+                    print("Connection error: " + url)
+                    # TODO change server to offline?
+                    continue
                 if response["valid_response"] \
                         and response["response"]["successful"] == 1:
                     executed = True
@@ -50,6 +54,7 @@ class Executor(IExecutor):
             if executed:
                 break
         if not executed:
+            print("### Execution failed, no server available.")
             server = None
         else:
             server.get("tasks").append(task_id)
@@ -86,28 +91,25 @@ class ExecutorManager(IExecutor):
         print("Not implemented now")
 
 
-def get_test_executor_manager() -> ExecutorManager:
+def get_test_executor_manager(slave_ip=None) -> ExecutorManager:
     """Return an Executor that can be used for tests."""
-    servers = get_test_servers()
+    servers = get_test_servers(slave_ip=slave_ip)
     executor_manager = ExecutorManager()
     executor_manager.create_executors(servers)
     return executor_manager
 
 
-def test_executor():
+def test_executor(slave_ip=None):
     print("### Test Executor")
-    servers = get_test_servers(4)
-    d = dict()
-    d["ip"] = "0.0.0.0"
-    s = Server(d)
-    servers.insert(0, s)
+    servers = get_test_servers(4, slave_ip=slave_ip)
+    print(servers)
     executor = Executor(servers)
     executor.execute(2)
 
 
-def test_executor_manager():
+def test_executor_manager(slave_ip=None):
     print("### Test ExecutorManager")
     exe_man = ExecutorManager()
-    servers = get_test_servers(2)
+    servers = get_test_servers(2, slave_ip=slave_ip)
     exe_man.create_executors(servers, 2)
     exe_man.execute(3)
