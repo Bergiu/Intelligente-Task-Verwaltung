@@ -11,12 +11,6 @@ Dies ist ein Projekt zur intelligenten Verteilung und Verwaltung von Tasks auf v
 		- `pip install requests`
 - MongoDB
 
-## Virtual Env
-Before programming you need to source the venv.
-cd into the source folder and:
-On linux execute `source venv/bin/activate`.
-On windows execute `venv\bin\activate`.
-
 ## Folder structure
 folder              | use case
 --------------------|--------------------------
