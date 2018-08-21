@@ -9,6 +9,8 @@ Dies ist ein Projekt zur intelligenten Verteilung und Verwaltung von Tasks auf v
 		- `pip install Flask`
 	- requests
 		- `pip install requests`
+	- PyMongo
+		- `pip install pymongo`
 - MongoDB
 
 ## Folder structure
